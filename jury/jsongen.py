@@ -69,7 +69,7 @@ StringGen = string_gen()
 
 char_gen = lambda: st.one_of(
     st.sampled_from(
-        [chr(x) for x in range(0x20, 0x10FFFF) if chr(x) != '"' and chr(x) != "\\"]
+        [chr(x) for x in range(0x20, 0x10FFFF) if not (x >= 0xd800 and x <= 0xdfff) and chr(x) != '"' and chr(x) != "\\"]
     ),
     # escape_gen()
 )
@@ -83,7 +83,7 @@ escape_gen = lambda: st.one_of(
     st.just("n"),
     st.just("r"),
     st.just("t"),
-    unicode_escape_gen(),
+    #unicode_escape_gen().filter(lambda e: hex(e[-4:]) >= 0xd800 and hex(e[-4:]) <= 0xdfff)
 )
 
 
@@ -148,7 +148,7 @@ FractionGen = fraction_gen()
 def exponent_gen(draw):
     exp = draw(st.one_of(st.just("E"), st.just("e")))
     sig = draw(SignGen)
-    dig = draw(st.lists(DigitGen, min_size=1))
+    dig = draw(st.lists(DigitGen, min_size=1, max_size=2))
     return f"{exp}{sig}" + "".join(dig)
 
 
