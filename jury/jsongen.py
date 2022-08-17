@@ -125,7 +125,7 @@ def single_digit_integer_gen(draw):
 def multi_digit_integer_gen(draw):
     sig = draw(st.one_of(st.just(""), st.just("-")))
     otn = draw(OneNineGen)
-    dig = draw(st.lists(DigitGen, min_size=1))
+    dig = draw(st.lists(DigitGen, min_size=1, max_size=10))
     return f"{sig}{otn}" + "".join(dig)
 
 
