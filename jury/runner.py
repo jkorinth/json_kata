@@ -1,14 +1,14 @@
-from pathlib import Path
-import os
-import unittest
-import time
-from hypothesis import given, settings
 from .jsongen import JsonGen
 from functools import wraps
+from hypothesis import given, settings
+from pathlib import Path
+from statistics import fmean
 from subprocess import Popen, PIPE
 import json
-from statistics import fmean
+import os
 import sys
+import time
+import unittest
 
 
 class Recorder:
@@ -25,8 +25,8 @@ class Recorder:
         }
         return stats
 
-    def __del__(self):
-        self.write(self)
+    def close(self):
+        self.write()
     
     def write(self):
         with open(self.log, "w+") as f:
