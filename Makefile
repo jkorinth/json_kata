@@ -6,7 +6,7 @@ ifeq ($(UNAME),)
 $(error Unknown OS "$(UNAME)", currently only *nixes are supported.)
 endif
 
-LANGUAGES ::= c cpp
+LANGUAGES ::= c cpp rust
 
 clean:
 	@find -name '__pycache__' -type d | xargs rm -rf
